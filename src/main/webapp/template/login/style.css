@@ -1,0 +1,11 @@
+.valid{
+	color: blue;
+}
+
+.invalid{
+	color: red;
+}
+
+.pending{
+	color: #188fd4;
+}
