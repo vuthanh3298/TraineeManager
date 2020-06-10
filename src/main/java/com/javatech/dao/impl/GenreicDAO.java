@@ -121,7 +121,7 @@ public class GenreicDAO<T> implements GenericDAO<T> {
 
 	@Override
 	public void update(String sql, Object... parameters) {
-		Connection connection = null;
+		Connection connection = null;	
 		PreparedStatement statement = null;
 		try {
 			connection = getConnection();

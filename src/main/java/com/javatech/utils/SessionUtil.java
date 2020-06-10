@@ -1,11 +1,15 @@
 package com.javatech.utils;
 import javax.servlet.http.HttpServletRequest;
 
+import com.javatech.model.UserModel;
+
 public class SessionUtil {
 
 	public static final String USERMODEL = "USERMODEL";
 	
     private static SessionUtil sessionUtil = null;
+    
+    private static Integer userId = null;
 
     public static SessionUtil getInstance() {
         if (sessionUtil == null) {
@@ -17,6 +21,9 @@ public class SessionUtil {
     public void putValue(HttpServletRequest request, String key, Object value) {
     	if(value != null) {
     		request.getSession().setAttribute(key, value);
+    		if(key.equals(USERMODEL)) {
+    			userId = ((UserModel)value).getId();
+    		}
     	}
     }
 
@@ -26,5 +33,12 @@ public class SessionUtil {
 
     public void removeValue(HttpServletRequest request, String key) {
         request.getSession().removeAttribute(key);
+        if(key.equals(USERMODEL)) {
+			userId = null;
+		}
     }
+
+	public static Integer getUserId() {
+		return userId;
+	}
 }
