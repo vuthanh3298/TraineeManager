@@ -8,6 +8,7 @@ public class ActionConstant {
 	
 	public static final String THANH_VIEN = "thanhvien";
 	public static final String CHO_DUYET = "choduyet";
+	public static final Object DELETED = "deleted";
 	public static final Object THONG_TIN_DANG_KY_LICH = "thongtindangkylich";
 	public static final Object SOAN_THOI_KHOA_BIEU = "soanthoikhoabieu";
 	public static final Object THONG_TIN_XIN_NGHI = "thongtinxinnghi";
@@ -23,6 +24,8 @@ public class ActionConstant {
 	public static final Object GET_USER = "get_user";
 	public static final Object EDIT_USER = "edit_user";
 	public static final Object DELETE_USER = "delete_user";
+	public static final Object RE_ACTIVE = "re_active";
+	public static final Object DELETE_USER_PENDING = "delete_user_pending";
 	public static final Object CREATE_USER = "create_user";
 	public static final Object DUYET_USER = "duyet_user";
 	public static final Object DUYET_USERS = "duyet_users";

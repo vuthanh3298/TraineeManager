@@ -55,13 +55,11 @@
 										<%-- <button type="button"
 											class="btnDuyetTaiKhoan btn btn-outline-danger "
 											style="color: black;" user-id="${thanhVien.id}">Duyệt</button> --%>
-										<a class="btnDuyetTaiKhoan" href=""
-											style="color: blue; margin-right: 30px;"
-											user-id="${thanhVien.id}">Duyệt</a> <a><i
-											class="delete-duyet" data-toggle="modal"
-											data-target="#DeleteUserModalCenter"
+										<a class="btnReActiveTaiKhoan" href=""
+											style="color: blue; margin-right: 30px;" data-toggle="modal"
+											data-target="#ReActiveUserModalCenter"
 											user-id="${thanhVien.id}" user-name="${thanhVien.username}"
-											user-mail="${thanhVien.email}"></i></a>
+											user-mail="${thanhVien.email}">Kích hoạt</a>
 
 									</div>
 
@@ -76,13 +74,13 @@
 </div>
 
 <!-- start Modal delete user -->
-<div class="modal fade" id="DeleteUserModalCenter" tabindex="-1"
+<div class="modal fade" id="ReActiveUserModalCenter" tabindex="-1"
 	role="dialog" aria-labelledby="EditUserModalCenterTitle"
 	aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">XÓA YÊU CẦU</h5>
+				<h5 class="modal-title" id="exampleModalLongTitle">Tái kích hoạt</h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -90,7 +88,7 @@
 			</div>
 			<!--  -->
 			<form id="delete-form"
-				action="/TraineeManager/admin/thanh-vien?action=delete_user_pending"
+				action="/TraineeManager/admin/thanh-vien?action=re_active"
 				method="POST">
 				<input id="user-id" name="id" type="text" hidden="true" />
 				<h3 id="name-del"></h3>
@@ -99,7 +97,7 @@
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Hủy</button>
 					<!-- <button id="btn-edit-change" type="button" class="btn btn-primary">Lưu</button> -->
-					<button type="submit" class="btn btn-primary">Xóa</button>
+					<button type="submit" class="btn btn-primary">Kích hoạt</button>
 				</div>
 			</form>
 		</div>
@@ -112,7 +110,7 @@
 		const id = $(this).attr('user-id');
 		document.getElementById("passId").submit();
 	});
-	$('.delete-duyet').click(function() {
+	$('.btnReActiveTaiKhoan').click(function() {
 		const id = $(this).attr('user-id');
 		name = "Tên: " + $(this).attr('user-name');
 		email = "Email: " + $(this).attr('user-mail');
@@ -120,5 +118,4 @@
 		$("#name-del").text(name);
 		$("#email-del").text(email);
 	});
-	
 </script>

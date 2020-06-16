@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
+
 <div class="container-fluid">
 	<c:if test="${not empty message}">
 		<div class="alert alert-${alert} alert-dismissible">
@@ -17,11 +18,12 @@
 	<!-- start list users -->
 	<div class="div-select-filter">
 		<select name="loaiThongBao" class="select-filter">
-			<option value="dangkylichtraining">Tất cả</option>
-			<option value="thongbaonghi">Jwat 01</option>
-			<option value="thongbaonghi">Jwat 02</option>
-			<option value="thongbaonghi">Jwat 03</option>
-			<option value="thongbaonghi">Jwat 04</option>
+			<option value="-1">Tất cả</option>
+			<c:forEach var="mClass" items="${dsClass}">
+				<option value=${mClass.id } class-id="${mClass.id}">
+					${mClass.name}</option>
+			</c:forEach>
+
 		</select>
 	</div>
 
@@ -37,8 +39,14 @@
 						pattern="dd-MM-yyyy" value="${thanhVien.dob}" /> - Địa chỉ:
 					${thanhVien.address}.
 			</small> <i class="edit btnSuaTaiKhoan" data-toggle="modal"
-				data-target="#EditUserModalCenter" user-id="${thanhVien.id}"></i> <i
-				class="delete btnDeleteTaiKhoan" user-id="${thanhVien.id}"></i>
+				data-target="#EditUserModalCenter" user-id="${thanhVien.id}"
+				user-name="${thanhVien.username}" user-mail="${thanhVien.email}"
+				user-phone="${thanhVien.phoneNumber}"
+				user-add="${thanhVien.address}" user-dob="${thanhVien.dob}"
+				user-uni="${thanhVien.university}"></i> <i
+				class="delete btnDeleteTaiKhoan" data-toggle="modal"
+				data-target="#DeleteUserModalCenter" user-id="${thanhVien.id}"
+				user-name="${thanhVien.username}" user-mail="${thanhVien.email}"></i>
 			</a>
 		</c:forEach>
 	</div>
@@ -60,7 +68,8 @@
 				</button>
 			</div>
 			<!--  -->
-			<form id="form-profile" action="/admin/thanh-vien?action=edit_user"
+			<form id="form-profile"
+				action="/TraineeManager/admin/thanh-vien?action=edit_user"
 				method="POST">
 				<input id="user-id" name="id" type="text" hidden="true" />
 				<div class="form-group row"
@@ -124,6 +133,40 @@
 </div>
 <!-- end Modal edit user -->
 
+<!-- start Modal delete user -->
+<div class="modal fade" id="DeleteUserModalCenter" tabindex="-1"
+	role="dialog" aria-labelledby="EditUserModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">XÓA THÀNH
+					VIÊN</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<!--  -->
+			<form id="delete-form"
+				action="/TraineeManager/admin/thanh-vien?action=delete_user"
+				method="POST">
+				<input id="user-id" name="id" type="text" hidden="true" />
+				<h3 id="name-del"></h3>
+				<h5 id="email-del"></h5>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Hủy</button>
+					<!-- <button id="btn-edit-change" type="button" class="btn btn-primary">Lưu</button> -->
+					<button type="submit" class="btn btn-primary">Xóa</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- end Modal delete user -->
+
+
 <!-- start Modal add user -->
 <div class="modal fade" id="AddUserModalCenter" tabindex="-1"
 	role="dialog" aria-labelledby="AddUserModalCenterTitle"
@@ -142,7 +185,8 @@
 				<div class="alert alert-${alert}">${message}</div>
 			</c:if> --%>
 
-			<form id="form-profile" action="/admin/thanh-vien?action=create_user"
+			<form id="form-profile"
+				action="/TraineeManager/admin/thanh-vien?action=create_user"
 				method="POST">
 				<div class="form-group row"
 					style="margin-left: 5px; margin-top: 5px;">
@@ -163,8 +207,7 @@
 						</div>
 						<input type="email"
 							class="input-register-email form-control form-control-user ModalSizeInput"
-							placeholder="Email Address"
-							name="email" >
+							placeholder="Email Address" name="email">
 					</div>
 				</div>
 
@@ -228,13 +271,44 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Đóng</button>
-					<button type="submit"
-								class="btn btn-primary btn-create">OK</button>
+					<button type="submit" class="btn btn-primary btn-create">OK</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 <!-- end Modal add user -->
+<script>
+	$('.btnDeleteTaiKhoan').click(function() {
+		const id = $(this).attr('user-id');
+		name = "Tên: " + $(this).attr('user-name');
+		email = "Email: " + $(this).attr('user-mail');
+		$("input:text").val(id);
+		$("#name-del").text(name);
+		$("#email-del").text(email);
+	});
 
+	$('.btnSuaTaiKhoan').click(function() {
+		id = $(this).attr('user-id');
+		name = $(this).attr('user-name');
+		email = $(this).attr('user-mail');
+		phone = $(this).attr('user-phone');
+		add = $(this).attr('user-add');
+		dob = $(this).attr('user-dob');
+		uni = $(this).attr('user-uni');
+		$("input:text").val(id);
+		$("#email").val(email);
+		$("#username").val(name);
+		$("#phone").val(phone);
+		$("#address").val(add);
+		$("#dob").val(dob);
+		$("#university").val(uni);
+	});
+	$('.select-filter').change(function() {
+		var id = $(this).children("option:selected").val();
+		//alert(id);
+		var path = "/TraineeManager/admin/thanh-vien?action=thanhvien&class=" + id;
+		window.location.replace(path);
+	});
+</script>
 <!--  -->

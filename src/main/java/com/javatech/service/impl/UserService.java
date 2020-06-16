@@ -13,6 +13,7 @@ public class UserService implements IUserService {
 
 	@Inject
 	IUserDAO userDAO;
+	
 	public UserService() {
 		userDAO = new UserDAO();
 	}
@@ -42,9 +43,11 @@ public class UserService implements IUserService {
 	public boolean update(UserModel userModel) {
 		return userDAO.update(userModel);
 	}
+	
 	public List<UserModel> findAll() {
 		return userDAO.findAll();
 	}
+	
 	public Boolean deleteUser(Integer id) {
 		return userDAO.deleteUser(id);
 	}
@@ -79,5 +82,25 @@ public class UserService implements IUserService {
 	@Override
 	public Boolean xoaUserChoDuyet(Integer id) {
 		return userDAO.xoaUserChoDuyet(id);
+	}
+
+	@Override
+	public List<UserModel> findAllTrainees() {
+		return userDAO.findAllTrainees();
+	}
+
+	@Override
+	public List<UserModel> findAllPending() {
+		return userDAO.findAllPending();
+	}
+
+	@Override
+	public List<UserModel> findAllDeleted() {
+		return userDAO.findAllDeleted();
+	}
+
+	@Override
+	public List<UserModel> findByClass(Integer pClass) {
+		return userDAO.findByClass(pClass);
 	}
 }
