@@ -128,7 +128,12 @@ public class ThanhVienController extends HttpServlet {
 		List<ClassModel> dsClass = classService.findAll();
 		List<UserModel> dsThanhVien;
 		if(classStr != null) {
-			dsThanhVien = userService.findByClass(Integer.parseInt(classStr));
+			int tempInt = Integer.parseInt(classStr);
+			if (tempInt==-1) {
+				dsThanhVien = userService.findAllTrainees();
+			} else {
+				dsThanhVien = userService.findByClass(Integer.parseInt(classStr));
+			}
 		} else {
 			dsThanhVien = userService.findAllTrainees();
 		}

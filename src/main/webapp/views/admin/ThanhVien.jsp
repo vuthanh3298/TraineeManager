@@ -18,10 +18,10 @@
 	<!-- start list users -->
 	<div class="div-select-filter">
 		<select name="loaiThongBao" class="select-filter">
-			<option value="-1">Tất cả</option>
+			<option value="" disabled selected hidden>Lọc theo lớp</option>
+			<option value=-1>Tất cả</option>
 			<c:forEach var="mClass" items="${dsClass}">
-				<option value=${mClass.id } class-id="${mClass.id}">
-					${mClass.name}</option>
+				<option value=${mClass.id }>${mClass.name}</option>
 			</c:forEach>
 
 		</select>
@@ -33,7 +33,7 @@
 				class="list-group-item list-group-item-action flex-column align-items-start ">
 				<div class="d-flex w-100 justify-content-between">
 					<h5 class="mb-1 a-list-users">${thanhVien.username}</h5>
-					<small class="text-muted">Jwat 01 bỏ tên lớp vào đây</small>
+					<small class="text-muted"></small>
 				</div> <small class="text-muted">SĐT: ${thanhVien.phoneNumber} -
 					Email: ${thanhVien.email} - SN: <fmt:formatDate
 						pattern="dd-MM-yyyy" value="${thanhVien.dob}" /> - Địa chỉ:
@@ -304,11 +304,15 @@
 		$("#dob").val(dob);
 		$("#university").val(uni);
 	});
-	$('.select-filter').change(function() {
-		var id = $(this).children("option:selected").val();
-		//alert(id);
-		var path = "/TraineeManager/admin/thanh-vien?action=thanhvien&class=" + id;
-		window.location.replace(path);
-	});
+	$('.select-filter')
+			.change(
+					function() {
+						var id = $(this).children("option:selected").val();
+						//alert(id);
+						var path = "/TraineeManager/admin/thanh-vien?action=thanhvien&class="
+								+ id;
+						window.location.replace(path);
+						$("#classUser").val("ahihi")
+					});
 </script>
 <!--  -->
