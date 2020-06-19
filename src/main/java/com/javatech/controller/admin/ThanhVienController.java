@@ -39,6 +39,8 @@ public class ThanhVienController extends HttpServlet {
 				getChoDuyet(req, res);
 			} else if (action.equals(ActionConstant.DELETED)) {
 				getDeleted(req, res);
+			} else if (action.equals(ActionConstant.DUYET_USER)) {
+				duyetUser(req, res, action);
 			}
 		}
 	}
@@ -84,10 +86,16 @@ public class ThanhVienController extends HttpServlet {
 		System.out.print("DELETE USER\n");
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
-		int id = Integer.parseInt(req.getParameter("id"));
-		userService.duyetUser(id);
 		if (action.equals(ActionConstant.RE_ACTIVE)) {
+			int id = Integer.parseInt(req.getParameter("id"));
+			userService.duyetUser(id);
 			DispatcherUtil.redirect(req, resp, "/admin/thanh-vien-cho-duyet?action=deleted");
+		} else if (action.equals(ActionConstant.DUYET_USER)) {
+			int user_id = Integer.parseInt(req.getParameter("userid"));
+			int class_id = Integer.parseInt(req.getParameter("class"));
+			userService.duyetUser(user_id);
+			classService.insertUserIntoClass(user_id, class_id);
+			DispatcherUtil.redirect(req, resp, "/admin/thanh-vien-cho-duyet?action=choduyet");
 		} else {
 			DispatcherUtil.redirect(req, resp, "/admin/thanh-vien-cho-duyet?action=choduyet");
 		}
@@ -124,12 +132,12 @@ public class ThanhVienController extends HttpServlet {
 		setMessage(req);
 		String classStr = req.getParameter("class");
 		// List<UserModel> dsThanhVien = userService.findAll();
-		//List<UserModel> dsThanhVien = userService.findAllTrainees();
+		// List<UserModel> dsThanhVien = userService.findAllTrainees();
 		List<ClassModel> dsClass = classService.findAll();
 		List<UserModel> dsThanhVien;
-		if(classStr != null) {
+		if (classStr != null) {
 			int tempInt = Integer.parseInt(classStr);
-			if (tempInt==-1) {
+			if (tempInt == -1) {
 				dsThanhVien = userService.findAllTrainees();
 			} else {
 				dsThanhVien = userService.findByClass(Integer.parseInt(classStr));
@@ -137,7 +145,7 @@ public class ThanhVienController extends HttpServlet {
 		} else {
 			dsThanhVien = userService.findAllTrainees();
 		}
-		
+
 		req.setAttribute("dsThanhVien", dsThanhVien);
 		req.setAttribute("dsClass", dsClass);
 		DispatcherUtil.returnViewNameAdminAndSetPageName(req, res, "ThanhVien");
@@ -154,8 +162,11 @@ public class ThanhVienController extends HttpServlet {
 	private void getChoDuyet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		setMessage(req);
 		// List<UserModel> dsThanhVien = userService.findAllStatus0();
+		List<ClassModel> dsClass = classService.findAll();
 		List<UserModel> dsThanhVien = userService.findAllPending();
+		// classService.insertUserIntoClass(1, 4);
 		req.setAttribute("dsThanhVien", dsThanhVien);
+		req.setAttribute("dsClass", dsClass);
 		DispatcherUtil.returnViewNameAdminAndSetPageName(req, res, "ChoDuyet");
 	}
 

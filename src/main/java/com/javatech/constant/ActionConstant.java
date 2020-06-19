@@ -15,6 +15,8 @@ public class ActionConstant {
 	public static final Object DIEM_DANH = "diemdanh";
 	public static final Object TIEN_DO = "tiendo";
 	public static final Object DANH_SACH_LOP = "danhsachlop";
+	public static final Object DELETE_LOP = "delete_class";
+	public static final Object EDIT_LOP = "edit_class";
 	public static final Object XEP_LOP = "xeplop";
 	public static final Object CHECK_EMAIL_EXIST = "check_email_exist";
 	public static final Object EDIT = "edit";

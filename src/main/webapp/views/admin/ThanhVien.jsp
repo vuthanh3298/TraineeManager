@@ -312,7 +312,6 @@
 						var path = "/TraineeManager/admin/thanh-vien?action=thanhvien&class="
 								+ id;
 						window.location.replace(path);
-						$("#classUser").val("ahihi")
 					});
 </script>
 <!--  -->
