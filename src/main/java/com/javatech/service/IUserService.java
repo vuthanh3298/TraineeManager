@@ -18,4 +18,10 @@ public interface IUserService {
 	Boolean duyetUsers(Integer[] ids);
 	Boolean xoaIdUsersChoDuyet(Integer[] ids);
 	Boolean xoaUserChoDuyet(Integer id);
+	
+	//Phuc
+	List<UserModel> findAllTrainees();
+	List<UserModel> findAllPending();
+	List<UserModel> findAllDeleted();
+	List<UserModel> findByClass(Integer pClass);
 }

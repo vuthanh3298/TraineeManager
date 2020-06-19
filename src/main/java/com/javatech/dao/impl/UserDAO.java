@@ -94,11 +94,13 @@ public class UserDAO extends GenreicDAO<UserModel> implements IUserDAO {
 		}
 		return false;
 	}
+	
 	@Override
 	public List<UserModel> findAll() {
 		String sql = "select * from users where `status`= 1";
 		return query(sql, new UserModel());
 	}
+	
 	@Override
 	public Boolean deleteUser(Integer id) {
 		try {
@@ -177,5 +179,33 @@ public class UserDAO extends GenreicDAO<UserModel> implements IUserDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public List<UserModel> findAllTrainees() {
+		String sql = "SELECT * FROM users WHERE status = 1 and role_id =2";
+		List<UserModel> users = query(sql, new UserModel());
+		return users;
+	}
+
+	@Override
+	public List<UserModel> findAllPending() {
+		String sql = "SELECT * FROM users WHERE status = 0";
+		List<UserModel> users = query(sql, new UserModel());
+		return users;
+	}
+	
+	@Override
+	public List<UserModel> findAllDeleted() {
+		String sql = "SELECT * FROM users WHERE status = -1";
+		List<UserModel> users = query(sql, new UserModel());
+		return users;
+	}
+
+	@Override
+	public List<UserModel> findByClass(Integer pClass) {
+		String sql = "SELECT * FROM users WHERE id IN(SELECT user_id FROM user_in_class WHERE class_id = ?) and status=1";
+		List<UserModel> users = query(sql.toString(), new UserModel(), pClass);
+		return users;
 	}
 }

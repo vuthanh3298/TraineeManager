@@ -26,6 +26,7 @@
     <div class="bg-white py-2 collapse-inner rounded">
       <a class="collapse-item" href='<c:url value="/admin/thanh-vien?action=thanhvien"/>'>Thành viên</a>
       <a class="collapse-item" href='<c:url value="/admin/thanh-vien-cho-duyet?action=choduyet"/>'>Thành viên chờ duyệt</a>
+      <a class="collapse-item" href='<c:url value="/admin/thanh-vien?action=deleted"/>'>Danh sách đã xóa</a>
     </div>
   </div>
 </li>

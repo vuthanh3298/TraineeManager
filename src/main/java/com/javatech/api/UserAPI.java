@@ -14,14 +14,40 @@ import com.javatech.model.UserModel;
 import com.javatech.service.IUserService;
 import com.javatech.utils.ConvertUtil;
 import com.javatech.utils.DispatcherUtil;
+import com.javatech.utils.HttpUtil;
 
 @WebServlet(urlPatterns = {"/api/users"})
 public class UserAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	@Inject
+	IUserService userService;
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("application/json");
+		UserModel userModel = HttpUtil.of(req.getReader()).toModel(UserModel.class);
+		userService.update(userModel);
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("application/json");
+		UserModel userModel = HttpUtil.of(req.getReader()).toModel(UserModel.class);
+		userService.deleteUser(userModel.getId());
+	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		res.setContentType("application/json");
 		String action = req.getParameter("action");
+		/* Convert json to UserModel */
+		UserModel userModel = HttpUtil.of(req.getReader()).toModel(UserModel.class);
+		userService.createUser(userModel);
+		
 		if(action != null) {
 			if(action.equals(ActionConstant.CHECK_EMAIL_EXIST)) {
 				postCheckEmailExist(req, res);
@@ -40,10 +66,7 @@ public class UserAPI extends HttpServlet {
 			}
 		}
 	}
-
-	@Inject
-	IUserService userService;
-
+	
 	private void postCheckEmailExist(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		CommonDTO model = ConvertUtil.toModelOfAPI(CommonDTO.class, req);
@@ -66,6 +89,7 @@ public class UserAPI extends HttpServlet {
 	private void duyetUser(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		CommonDTO model = ConvertUtil.toModelOfAPI(CommonDTO.class, req);
 		Boolean duyetIdUser=userService.duyetUser(model.getId());
+		System.out.print("DUYET");
 		DispatcherUtil.send(res, duyetIdUser);
 	}
 	private void duyetUsers(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
