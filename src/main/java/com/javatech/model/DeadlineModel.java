@@ -1,16 +1,19 @@
 package com.javatech.model;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class DeadlineModel extends AbstractModel<ThongBaoModel> implements IRowMapper<DeadlineModel> {
+public class DeadlineModel extends AbstractModel<DeadlineModel> implements IRowMapper<DeadlineModel> {
 	private String title;
 	private String content;
 	private String toClass;
 	private Timestamp dueDate;
 	private Boolean isRegister;
-	private int year;
-	private int week;
+	private String weekInYear;
+	//private int year;
+	//private int week;
+	
 	private int status;
 	public String getTitle() {
 		return title;
@@ -43,17 +46,11 @@ public class DeadlineModel extends AbstractModel<ThongBaoModel> implements IRowM
 	public void setIsRegister(Boolean isRegister) {
 		this.isRegister = isRegister;
 	}
-	public int getYear() {
-		return year;
+	public String getWeekInYear() {
+		return weekInYear;
 	}
-	public void setYear(int year) {
-		this.year = year;
-	}
-	public int getWeek() {
-		return week;
-	}
-	public void setWeek(int week) {
-		this.week = week;
+	public void setWeekInYear(String WeekInYear) {
+		this.weekInYear = WeekInYear;
 	}
 	public int getStatus() {
 		return status;
@@ -72,8 +69,7 @@ public class DeadlineModel extends AbstractModel<ThongBaoModel> implements IRowM
 			deadline.setToClass(resultSet.getString("to_classes"));
 			deadline.setDueDate(resultSet.getTimestamp("due_date"));
 			deadline.setIsRegister(resultSet.getBoolean("is_register"));
-			deadline.setYear(resultSet.getInt("year"));
-			deadline.setWeek(resultSet.getInt("week"));
+			deadline.setWeekInYear(resultSet.getString("week_in_year"));
 			deadline.setStatus(resultSet.getInt("status"));
 			deadline.setCreatedDate(resultSet.getTimestamp("created_date"));
 			deadline.setModifiedDate(resultSet.getTimestamp("modified_date"));

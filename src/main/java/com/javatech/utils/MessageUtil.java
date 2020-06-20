@@ -1,4 +1,5 @@
 package com.javatech.utils;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class MessageUtil {

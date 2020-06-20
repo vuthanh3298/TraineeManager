@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
-<!-- start add notification and search -->
 <div style="width: 100%;">
 	<c:if test="${not empty message}">
 		<div class="alert alert-${alert} alert-dismissible">
@@ -10,23 +9,33 @@
 		</div>
 	</c:if>
 	<div class="row">
-		<a class="btn btn-outline-danger"
-			href='<c:url value="/admin/thong-bao-deadline?action=add_thong_bao"/>'>Thêm</a>
-	</div>
-	<!-- end add notification and search -->
-	<!-- start content notification  -->
-	<div>
-		<div class="div-select-filter">
-			<select name="loaiThongBao" class="select-filter">
-				<option value="dangkylichtraining">()Lấy danh sách lớp)Tất
-					cả</option>
-				<option value="thongbaonghi">Jwat 01</option>
-				<option value="thongbaonghi">Jwat 02</option>
-				<option value="thongbaonghi">Jwat 03</option>
-				<option value="thongbaonghi">Jwat 04</option>
-			</select>
+		<div class="col-sm-6">
+			<a class="btn btn-outline-danger"
+				href='<c:url value="/admin/thong-bao-deadline?action=add_thong_bao"/>' style="margin-bottom: 5px;">Thêm</a>
+		</div>
+
+
+		<div class="col-sm-6">
+			<div class="div-select-filter">
+				<select name="ClassesNameThongBao" id="ClassesNameThongBao"
+					class="select-filter"
+					style="margin-bottom: 0px; float: right;"><!--  position: absolute; float: 0 -->
+					<option value="Tất cả">Tất cả</option>
+					<c:forEach var="classes" items="${dsClasses}">
+						<c:choose>
+							<c:when test="${clazz == classes.name }">
+								<option value="${classes.name }" selected>${classes.name }</option>
+						  	</c:when>
+						 	<c:otherwise>
+						    	<option value="${classes.name }" >${classes.name }</option>
+						  	</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
 	</div>
+
 
 	<div>
 		<ul class="list-group ul-notification-admin">
@@ -34,12 +43,13 @@
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					<div style="margin-right: 25px;">
-						<a class="a-notification-admin" href="/admin/thong-bao-deadline?action=view_thong_bao&id=${thongBao.id}">
+						<a class="a-notification-admin"
+							href="/admin/thong-bao-deadline?action=view_thong_bao&id=${thongBao.id}">
 							${thongBao.title} </a> <span style="color: #2b2b2b; font-size: 13px;">
 							${thongBao.createdDate} </span> <span
 							style="color: #f00; font-size: 16px"> *new</span>
 
-					</div> <a class="edit btneditThongBao" 
+					</div> <a class="edit"
 					href='<c:url value="/admin/thong-bao-deadline?action=edit_thong_bao&id=${thongBao.id}"/>'></a>
 					<i class="delete btndeleteThongBao" id-Thong-Bao="${thongBao.id}"></i>
 				</li>
@@ -58,3 +68,4 @@
 		</nav>
 	</div>
 </div>
+<script src="<c:url value='/js/admin/ThongBao.js' />"></script>

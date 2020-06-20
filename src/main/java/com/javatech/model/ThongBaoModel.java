@@ -32,7 +32,7 @@ public class ThongBaoModel extends AbstractModel<ThongBaoModel> implements IRowM
 	public void setContent(String content) {
 		this.content = content;
 	}
-
+	
 	@Override
 	public ThongBaoModel mapRow(ResultSet resultSet) {
 		try {
@@ -51,4 +51,5 @@ public class ThongBaoModel extends AbstractModel<ThongBaoModel> implements IRowM
 			return null;
 		}	
 	}
+
 }

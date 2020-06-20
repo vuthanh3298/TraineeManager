@@ -1,4 +1,5 @@
 package com.javatech.service.impl;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -44,4 +45,12 @@ public class ThongBaoService implements IThongBaoService{
 	public Boolean deleteThongBao(Integer id) {
 		return thongBaoDAO.deleteThongBao(id);
 	}
+	
+	public List<ThongBaoModel> findByClass(String clazz){
+		if(clazz.equals("Tất cả")) {
+			return findAll();
+		}
+		return thongBaoDAO.findByClass(clazz);
+	}
+
 }

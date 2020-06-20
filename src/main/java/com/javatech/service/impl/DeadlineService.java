@@ -1,4 +1,5 @@
 package com.javatech.service.impl;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -31,4 +32,23 @@ public class DeadlineService implements IDeadlineService{
 	public DeadlineModel findOne(Integer id) {
 		return deadlineDAO.findOne(id);
 	}
+	@Override
+	public Integer update(DeadlineModel model) {
+		Date now = new Date();
+		Timestamp timestamp = new Timestamp(now.getTime());
+		model.setModifiedDate(timestamp);
+		return deadlineDAO.update(model);
+	}
+	@Override
+	public Boolean deleteDeadline(Integer id) {
+		return deadlineDAO.deleteDeadline(id);
+	}
+	@Override
+	public List<DeadlineModel> findByClass(String classDeadline) {
+		if(classDeadline.equals("Tất cả")) {
+			return findAll();
+		}
+		return deadlineDAO.findByClass(classDeadline);
+	}
+	
 }

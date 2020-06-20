@@ -16,13 +16,13 @@ public class CommonEntity {
 	Integer status;
 	
 	@Column("created_date")
-	Timestamp createDate;
+	Timestamp createdDate;
 	
 	@Column("modified_date")
 	Timestamp modifiedDate;
 	
 	@Column("created_by")
-	Integer createBy;
+	Integer createdBy;
 	
 	@Column("modified_by")
 	Integer modifiedBy;
@@ -43,28 +43,12 @@ public class CommonEntity {
 		this.status = status;
 	}
 
-	public Timestamp getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Timestamp createDate) {
-		this.createDate = createDate;
-	}
-
 	public Timestamp getModifiedDate() {
 		return modifiedDate;
 	}
 
 	public void setModifiedDate(Timestamp modifiedDate) {
 		this.modifiedDate = modifiedDate;
-	}
-
-	public Integer getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(Integer createBy) {
-		this.createBy = createBy;
 	}
 
 	public Integer getModifiedBy() {
@@ -74,5 +58,20 @@ public class CommonEntity {
 	public void setModifiedBy(Integer modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
+
+	public Timestamp getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
 }

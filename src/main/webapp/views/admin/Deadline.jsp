@@ -4,39 +4,45 @@
 <!-- start add notification and search -->
 <div style="width: 100%;">
 	<div class="row">
-		<a class="btn btn-outline-danger"
-			href='<c:url value="/admin/thong-bao-deadline?action=add_deadline"/>'>Thêm</a>
-	</div>
-	<!-- end add notification and search -->
-	<!-- start content notification  -->
-	<div>
-		<div class="div-select-filter">
-			<select name="loaiThongBao" class="select-filter">
-				<option value="dangkylichtraining">()Lấy danh sách lớp)Tất
-					cả</option>
-				<option value="thongbaonghi">Jwat 01</option>
-				<option value="thongbaonghi">Jwat 02</option>
-				<option value="thongbaonghi">Jwat 03</option>
-				<option value="thongbaonghi">Jwat 04</option>
-			</select>
+		<div class="col-sm-6">
+			<a class="btn btn-outline-danger"
+				href='<c:url value="/admin/thong-bao-deadline?action=add_deadline"/>'
+				style="margin-bottom: 5px;">Thêm</a>
+		</div>
+
+
+		<div class="col-sm-6">
+			<div class="div-select-filter">
+				<select name="ClassesNameDeadline" id="ClassesNameDeadline"
+					class="select-filter" style="margin-bottom: 0px; float: right;">
+					<option value="Tất cả">Tất cả</option>
+					<c:forEach var="classes" items="${dsClasses}">
+						<c:choose>
+							<c:when test="${classDeadline == classes.name }">
+								<option value="${classes.name }" selected>${classes.name }</option>
+						  	</c:when>
+						 	<c:otherwise>
+						    	<option value="${classes.name }" >${classes.name }</option>
+						  	</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
 	</div>
-
 	<div>
 		<ul class="list-group ul-notification-admin">
 			<c:forEach var="deadline" items="${dsDeadline}">
 				<li
 					class="list-group-item d-flex justify-content-between align-items-center">
 					<div>
-						<a class="a-notification-admin" href="/admin/thong-bao-deadline?action=view_deadline&id=${deadline.id}">
+						<a class="a-notification-admin"
+							href='<c:url value="/admin/thong-bao-deadline?action=view_deadline&id=${deadline.id}"/>'>
 							${deadline.title}</a> <span style="color: #2b2b2b; font-size: 13px;">${deadline.createdDate}</span>
 						<span style="color: #f00; font-size: 16px">*new</span>
-
-					</div> <a class="edit btneditDeadline"
+					</div> <a class="edit"
 					href='<c:url value="/admin/thong-bao-deadline?action=edit_deadline&id=${deadline.id}"/>'></a>
 					<i class="delete btndeleteDeadline" id-Deadline="${deadline.id}"></i>
-					<!-- <i class="edit" data-toggle="modal"
-						data-target="#EditNotificationModalCenter"></i> <i class="delete"></i> -->
 				</li>
 			</c:forEach>
 		</ul>
@@ -52,5 +58,5 @@
 			</ul>
 		</nav>
 	</div>
-
 </div>
+<script src="<c:url value='/js/admin/Deadline.js' />"></script>

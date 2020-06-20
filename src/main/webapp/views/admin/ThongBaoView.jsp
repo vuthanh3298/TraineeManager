@@ -18,5 +18,6 @@
 	</div>
 	<small class="text-muted">${thongBao.createdDate} </small>
 	<div style="margin-top: 30px; color: black;">${thongBao.content}</div>
+	<button onclick="goBack()" class="btn btn-primary mb-2" type="button"  style="float: right;">Thoát</button>
 </body>
 </html>

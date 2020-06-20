@@ -1,9 +1,10 @@
 package com.javatech.model;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class KhoaHocModel extends AbstractModel<KhoaHocModel> implements IRowMapper<KhoaHocModel> {
+public class KhoaHocModel extends AbstractModel<KhoaHocModel> implements IRowMapper<KhoaHocModel>{
 	private String name;
 	private Timestamp startTime;
 	private Timestamp endTime;

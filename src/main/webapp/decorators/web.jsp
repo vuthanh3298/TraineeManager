@@ -8,7 +8,10 @@
     <!-- css -->
     <link href="<c:url value='/template/web/bootstrap/css/bootstrap.min.css' />" rel="stylesheet" type="text/css" media="all"/>
     <link href="<c:url value='/template/web/css/style.css' />" rel="stylesheet" type="text/css" media="all"/>
-    
+    <!-- ckeditor -->
+	<script src="<c:url value='/ckeditor/ckeditor.js' />"></script>
+	
+	<script src="<c:url value='/template/admin/vendor/jquery/jquery.min.js' />"></script>
 </head>
 <body>
 	<!-- header -->
@@ -25,7 +28,8 @@
 	
 	<script type="text/javascript" src="<c:url value='/template/web/jquery/jquery.min.js' />"></script>
     <script type="text/javascript" src="<c:url value='/template/web/bootstrap/js/bootstrap.bundle.min.js' />"></script>
-
+	<script src="<c:url value='/js/custom.js' />"></script>
+	
 	
 </body>
 </html>

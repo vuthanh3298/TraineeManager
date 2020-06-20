@@ -22,8 +22,8 @@ public class TestMyORM extends HttpServlet {
 	UserService userService;
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		UserEntity user = userService.selectOne(3);
-		DispatcherUtil.send(res, user);
+		Object users = userService.selectList();
+		DispatcherUtil.send(res, users);
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

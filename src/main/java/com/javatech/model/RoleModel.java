@@ -1,5 +1,6 @@
 package com.javatech.model;
-public class RoleModel extends AbstractModel<RoleModel>{
+
+public class RoleModel extends AbstractModel<RoleModel> {
 	
 	private String code;
 	private String name;

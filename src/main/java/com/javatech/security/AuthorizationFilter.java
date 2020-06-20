@@ -1,4 +1,5 @@
 package com.javatech.security;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -34,19 +35,23 @@ public class AuthorizationFilter implements Filter {
         response.setContentType("application/json");
         String url = request.getRequestURI();
         System.out.println(url);
-        if (url.startsWith("/admin")) {
-            UserModel model = (UserModel) SessionUtil.getInstance().getValue(request, "USERMODEL");
-            if (model != null) {
-                if (model.getRole().getCode().equals(SystemConstant.ADMIN_ROLE)) {
+        if(url.startsWith("/login") || url.startsWith("/register")) {
+        	filterChain.doFilter(servletRequest, servletResponse);
+        	return;
+        }
+        UserModel model = (UserModel) SessionUtil.getInstance().getValue(request, "USERMODEL");
+        if (model != null) {
+        	if (url.startsWith("/admin")) {
+        		if (model.getRole().getCode().equals(SystemConstant.ADMIN_ROLE)) {
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else if (model.getRole().getCode().equals(SystemConstant.USER_ROLE)) {
                     response.sendRedirect(request.getContextPath()+"/login?action=login&message=not_permission&alert=danger");
                 }
-            } else {
-                response.sendRedirect(request.getContextPath()+"/login?action=login&message=not_login&alert=danger");
+        	} else {
+                filterChain.doFilter(servletRequest, servletResponse);
             }
         } else {
-            filterChain.doFilter(servletRequest, servletResponse);
+            response.sendRedirect(request.getContextPath()+"/login?action=login&message=not_login&alert=danger");
         }
     }
 

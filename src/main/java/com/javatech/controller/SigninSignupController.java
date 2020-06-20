@@ -1,4 +1,5 @@
 package com.javatech.controller;
+
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.javatech.constant.ActionConstant;
 import com.javatech.constant.SystemConstant;
 import com.javatech.constant.UrlConstant;
-import com.javatech.dto.UserDTO;
+import com.javatech.form.UserForm;
 import com.javatech.model.UserModel;
 import com.javatech.service.IUserService;
 import com.javatech.utils.ConvertUtil;
@@ -100,7 +101,7 @@ public class SigninSignupController extends HttpServlet {
 	
 	
 	private void postLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		UserDTO userForm = ConvertUtil.toModelOfController(UserDTO.class, req);
+		UserForm userForm = ConvertUtil.toModelOfController(UserForm.class, req);
 		UserModel userModel = userService.findByEmailAndPassword(userForm.getEmail(), userForm.getPassword());
 		if (userModel == null) {
 			DispatcherUtil.redirect(req, res, "/login?action=login&message=username_password_invalid&alert=danger");

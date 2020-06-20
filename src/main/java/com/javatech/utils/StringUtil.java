@@ -1,4 +1,5 @@
 package com.javatech.utils;
+
 public class StringUtil{
     public static String makeBeautiful(String str){
     	if(str == null) return "";

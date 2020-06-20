@@ -79,6 +79,10 @@ public class CommonDao<T> {
 					Column column = field.getAnnotation(Column.class);
 					field.setAccessible(true);
 
+					if (!hasColumn(resultSet, column.value())) {
+						continue;
+					}
+
 					Object value = resultSet.getObject(column.value());
 					if (value == null) {
 						continue;
@@ -92,6 +96,8 @@ public class CommonDao<T> {
 						field.set(instance, resultSet.getString(column.value()));
 					} else if (field.getType().isAssignableFrom(Timestamp.class)) {
 						field.set(instance, resultSet.getTimestamp(column.value()));
+					} else if (field.getType().isAssignableFrom(Boolean.class)) {
+						field.set(instance, resultSet.getBoolean(column.value()));
 					}
 				}
 			}
@@ -100,6 +106,16 @@ public class CommonDao<T> {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private boolean hasColumn(ResultSet rs, String column) {
+		try{
+	        rs.findColumn(column);
+	        return true;
+	    } catch (SQLException sqlex){
+	        sqlex.printStackTrace();
+	    }
+	    return false;
 	}
 
 	private void setParameter(PreparedStatement statement, Object... parameters) {
@@ -115,6 +131,8 @@ public class CommonDao<T> {
 					statement.setInt(index, (Integer) parameter);
 				} else if (parameter instanceof Timestamp) {
 					statement.setTimestamp(index, (Timestamp) parameter);
+				} else if (parameter instanceof Boolean) {
+					statement.setBoolean(index, (Boolean) parameter);
 				} else if (parameter == null) {
 					statement.setNull(index, 0);
 				}
@@ -157,6 +175,53 @@ public class CommonDao<T> {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * if status is null or empty then select all without status condition
+	 * 
+	 * @param status
+	 * @return List<T>
+	 */
+	public List<T> selectAll(Integer... status) {
+		List<T> results = new ArrayList<>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			connection = getConnection();
+			StringBuilder sql = new StringBuilder("select * from ");
+			sql.append(tableName);
+			if (status != null && status.length > 0) {
+				sql.append(" where status =? ");
+				statement = connection.prepareStatement(sql.toString());
+				statement.setInt(1, status[0]);
+				// setParameter(statement, status[0]);
+			} else {
+				statement = connection.prepareStatement(sql.toString());
+			}
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				results.add(convertToEntity(resultSet));
+			}
+			return results;
+		} catch (SQLException e) {
+			return null;
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+				return null;
+			}
+		}
 	}
 
 	public List<T> selecList(String sql, Object... parameters) {
@@ -270,12 +335,9 @@ public class CommonDao<T> {
 					field.setAccessible(true);
 					Object value = field.get(instance);
 					Column column = field.getAnnotation(Column.class);
-					if (value != null 
-							|| column.value().equals("created_by") 
-							|| column.value().equals("modified_by")
-							|| column.value().equals("created_date") 
-							|| column.value().equals("modified_date")) {
-						
+					if (value != null || column.value().equals("created_by") || column.value().equals("modified_by")
+							|| column.value().equals("created_date") || column.value().equals("modified_date")) {
+
 						fieldsInsert.add(column.value());
 						questionMarks.add("?");
 						if (column.value().equals("created_by") || column.value().equals("modified_by")) {
@@ -324,8 +386,7 @@ public class CommonDao<T> {
 					valueIdsUpdate.add(value);
 				} else if (field.isAnnotationPresent(Column.class)) {
 					Object value = field.get(instance);
-					if (value != null
-							|| column.value().equals("modified_by")
+					if (value != null || column.value().equals("modified_by")
 							|| column.value().equals("modified_date")) {
 						fieldsUpdate.add(column.value() + " = ?");
 						if (column.value().equals("modified_by")) {

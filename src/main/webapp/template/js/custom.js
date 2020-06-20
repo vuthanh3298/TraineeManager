@@ -1,3 +1,7 @@
+function goBack() {
+	window.history.back();
+}
+
 function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
@@ -23,6 +27,10 @@ function showMessage() {
     $('.btn-create').attr("disabled", "disabled");
 }
 var editor = '';
+editor = CKEDITOR.replace('editorContentThongBao');
+
+
+
 $(document).ready(function() {
     $("#btn-save-change").click(function(event) {
         event.preventDefault();
@@ -245,125 +253,54 @@ $(document).ready(function() {
 
     });
 
+
+    
+
+    /*Khoá học*/
+    $('#btn-course-create').click(function() {
+        $('#course-modal').attr('action', '/admin/khoa-hoc?action=create_khoa_hoc');
+    });
+
     $('.btn-edit-courses').click(function() {
+        $('#course-modal').attr('action', '/admin/khoa-hoc?action=update_khoa_hoc');
         var data = {
             id: $(this).attr('id-course')
         };
         $.ajax({
-            url: '/api/khoa-hoc?action=edit',
+            url: '/api/khoa-hoc',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(result) {
                 if (result !== null) {
-                    console.log(result);
-                    $("#courses-name").val('');
-                    //					$("#courses-start-time").val('');
-                    //					$("#courses-end-time").val('');
-                    $("#courses-description").val('');
-                    $("#courses-note").val('');
+                    $("#course-id").val(result.id);
+                    $("#courses-name").val(result.name);
+                    $("#courses-start-time").val(formatDate(result.startTime));
+                    $("#courses-end-time").val(formatDate(result.endTime));
+                    $("#courses-description").val(result.description);
+                    $("#courses-note").val(result.note);
                 }
             }
         });
     });
-    //ckeditor
-    editor = CKEDITOR.replace('editorContentThongBao');
-    $("#btn-save-add-Thong-Bao").click(function() {
-        var title = $('#title').val();
-       // var toClass = $('#confirm').val();
-       
+
+    $('.btn-delete-courses').click(function() {
         var data = {
-        		title: title,
-        }
-       data["content"]=editor.getData();
-        $.ajax({
-            url: '/api/thong-bao-deadline?action=add_thong_bao',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function(result) {
-                if (result === true) {
-                    window.location = "/admin/thong-bao-deadline?action=thong_bao_va_deadline";
-                } else {
-                    alert("bug");
-                }
-            }
-        });
-    });
-    
-    /* btn sửa tài khoản*/
-    $("#btn-save-edit-Thong-Bao").click(function() {
-    	var idThongBao = $('#thong-bao-id').val();
-        var title = $('#title').val();
-        var data = {
-        		id:idThongBao,
-        		title: title,
-        }
-       data["content"]=editor.getData();
-        $.ajax({
-            url: '/api/thong-bao-deadline?action=save_edit_thong_bao',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function(result) {
-                if (result === true) {
-                    window.location = "/admin/thong-bao-deadline?action=thong_bao_va_deadlinemessage=update_thanh_cong&alert=success";
-                } else {
-                	window.location = "/admin/thong-bao-deadline?action=thong_bao_va_deadline&message=update_that_bai&alert=warning";
-                    
-                }
-            }
-        });
-    });
-    $(".btndeleteThongBao").click(function() {
-        var idThongBao = $(this).attr("id-Thong-Bao");
-        var This = $(this);
-        var data = {
-            id: idThongBao
+            id: $(this).attr('id-course')
         };
         $.ajax({
-            url: '/api/thong-bao-deadline?action=delete_thong_bao',
-            type: 'POST',
+            url: '/api/khoa-hoc',
+            type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify(data),
             dataType: 'json',
             success: function(result) {
-                if (result === true) {
-                    This.closest("li").remove();
-                } else {
-                    alert("bug");
+                if (result > -1) {
+                    window.location = '/admin/khoa-hoc';
                 }
             }
         });
+    });
 
-    });
-    // deadline
-    
-    $("#btn-save-add-Deadline").click(function() {
-        var title = $('#title').val();
-       // var toClass = $('#confirm').val();
-       
-        var data = {
-        		title: title,
-        }
-       data["content"]=editor.getData();
-        $.ajax({
-            url: '/api/thong-bao-deadline?action=add_deadline',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            success: function(result) {
-                if (result === true) {
-                    window.location = "/admin/thong-bao-deadline?action=thong_bao_va_deadline";
-                } else {
-                    alert("bug");
-                }
-            }
-        });
-    });
-    
 });
