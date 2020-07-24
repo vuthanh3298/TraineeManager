@@ -11,11 +11,11 @@
 			id="checkedAll" /> <select name="loaiThongBao"
 			class="btnSort btn-info btn"
 			style="background-color: white; color: black; margin-left: 30px;">
-			<option value="dangkylichtraining">_(danh sách)lớp_</option>
-			<option value="thongbaonghi">Jwat 01</option>
-			<option value="thongbaonghi">Jwat 02</option>
-			<option value="thongbaonghi">Jwat 03</option>
-			<option value="thongbaonghi">Jwat 04</option>
+			<option value="dangkylichtraining" disabled selected hidden>_(danh
+				sách)lớp_</option>
+			<c:forEach var="mClass" items="${dsClass}">
+				<option value=${mClass.id }>${mClass.name}</option>
+			</c:forEach>
 		</select>
 		<div style="float: right;">
 			<button id="btnDuyetTaiKhoanDuocChon" type="button"
@@ -39,11 +39,11 @@
 										<h5 class="mb-1 a-list-users">${thanhVien.username}</h5>
 										<small class="text-muted"> <select name="loaiThongBao"
 											class="select-filter">
-												<option value="dangkylichtraining">_(danh sách)lớp_</option>
-												<option value="thongbaonghi">Jwat 01</option>
-												<option value="thongbaonghi">Jwat 02</option>
-												<option value="thongbaonghi">Jwat 03</option>
-												<option value="thongbaonghi">Jwat 04</option>
+												<option value="dangkylichtraining" disabled selected hidden>_(danh
+													sách)lớp_</option>
+												<c:forEach var="mClass" items="${dsClass}">
+													<option value=${mClass.id }>${mClass.name}</option>
+												</c:forEach>
 										</select>
 										</small>
 									</div> <small class="text-muted">SĐT:
@@ -108,10 +108,7 @@
 <!-- end Modal delete user -->
 
 <script>
-	$('.btnDuyetTaiKhoan').click(function() {
-		const id = $(this).attr('user-id');
-		document.getElementById("passId").submit();
-	});
+	var global_class_id;
 	$('.delete-duyet').click(function() {
 		const id = $(this).attr('user-id');
 		name = "Tên: " + $(this).attr('user-name');
@@ -120,5 +117,16 @@
 		$("#name-del").text(name);
 		$("#email-del").text(email);
 	});
-	
+	$('.select-filter').change(function() {
+		global_class_id = $(this).children("option:selected").val();
+	});
+	$('.btnDuyetTaiKhoan')
+			.click(
+					function() {
+						user_id = $(this).attr('user-id');
+						var path = "/admin/thanh-vien?action=duyet_user&class="
+								+ global_class_id + "&userid=" + user_id;
+						alert(path);
+						window.location.replace(path);
+					});
 </script>

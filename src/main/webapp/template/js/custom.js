@@ -26,8 +26,8 @@ function showMessage() {
     $('.span-email-exist').removeAttr('hidden');
     $('.btn-create').attr("disabled", "disabled");
 }
-var editor = '';
-editor = CKEDITOR.replace('editorContentThongBao');
+//var editor = '';
+//editor = CKEDITOR.replace('editorContentThongBao');
 
 
 
@@ -92,6 +92,7 @@ $(document).ready(function() {
 
     $('.input-register-email').keyup(function() {
         var inputEmail = $(this);
+        alert('duy');
         clearTimeout(inputEmail.data('timeout'));
         inputEmail.data('timeout', setTimeout(function() {
             if (inputEmail.val() !== '') {

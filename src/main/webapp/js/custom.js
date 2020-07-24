@@ -96,6 +96,7 @@ $(document).ready(function() {
     });
 
     $('.input-register-email').keyup(function() {
+    	alert('hello');
         var inputEmail = $(this);
         clearTimeout(inputEmail.data('timeout'));
         inputEmail.data('timeout', setTimeout(function() {
