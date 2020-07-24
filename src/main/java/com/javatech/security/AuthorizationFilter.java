@@ -35,7 +35,7 @@ public class AuthorizationFilter implements Filter {
         response.setContentType("application/json");
         String url = request.getRequestURI();
         System.out.println(url);
-        if(url.startsWith("/login") || url.startsWith("/register")) {
+        if(url.startsWith("/login") || url.startsWith("/register") || url.startsWith("/template")) {
         	filterChain.doFilter(servletRequest, servletResponse);
         	return;
         }
